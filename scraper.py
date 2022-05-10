@@ -1,4 +1,5 @@
 from webbrowser import get
+from translate import Translator
 from bs4 import BeautifulSoup
 import requests
 import json
@@ -11,7 +12,7 @@ def get_element(parent, selector, attribute = None, return_list = False):
             return parent.select_one(selector)[attribute]
         return parent.select_one(selector).text.strip()
     except (AttributeError, TypeError):
-        return None
+        return None 
 
 
 product_id = input("Please, enter the product id: ")
@@ -40,15 +41,21 @@ while (url):
         "cons": ["div.review-feature__title--negatives ~ div.review-feature__item", None, True]
     }
 
+    # Transaltors are trolls, man
+    translator = Translator(to_lang="en", from_lang="pl")
     for opinion in opinions:
         single_opinion = {
             key: get_element(opinion, *values)
             for key, values in opinion_elements.items()
-
         }
         single_opinion["opinion_id"] = opinion["data-entry-id"]
+        single_opinion["recommendation"] = True if single_opinion["recommendation"]  == "Polecam" else False if single_opinion["recommendation"]  == "Nie polecam" else None
+        single_opinion["score"] = float(single_opinion["score"].split("/")[0].replace(",", "."))
+        single_opinion["usefull_for"] = int(single_opinion["usefull_for"])
+        single_opinion["useless_for"] = int(single_opinion["useless_for"])
+        single_opinion["content_en"] = Translator.translate(single_opinion["content"])
         all_opinions.append(single_opinion)
-
+    
     try:
         url = "https://www.ceneo.pl"+page_dom.select_one("a.pagination__next")["href"]
     except TypeError:
