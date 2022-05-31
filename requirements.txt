@@ -1,5 +1,6 @@
 beautifulsoup4==4.10.0
 certifi==2021.10.8
+<<<<<<< HEAD
 chardet==3.0.4
 charset-normalizer==2.0.12
 click==8.1.3
@@ -30,6 +31,15 @@ requests==2.27.1
 rfc3986==1.5.0
 six==1.16.0
 sniffio==1.2.0
+=======
+charset-normalizer==2.0.12
+click==8.1.3
+colorama==0.4.4
+idna==3.3
+libretranslatepy==2.1.1
+lxml==4.8.0
+requests==2.27.1
+>>>>>>> 959847afd3dfa024a76aed41ca9802b338febbf7
 soupsieve==2.3.1
 translate==3.6.1
 urllib3==1.26.9
